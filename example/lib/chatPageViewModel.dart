@@ -23,16 +23,16 @@ class ChatMessage {
 
 class ChatPageViewModel extends ViewModel {
 // Properties
-  String _serverUrl;
-  HubConnection _hubConnection;
-  Logger _logger;
-  StreamSubscription<LogRecord> _logMessagesSub;
+  late String _serverUrl;
+  late HubConnection _hubConnection;
+  late Logger _logger;
+  late StreamSubscription<LogRecord> _logMessagesSub;
 
-  List<ChatMessage> _chatMessages;
+  List<ChatMessage> _chatMessages = [];
   static const String chatMessagesPropName = "chatMessages";
   List<ChatMessage> get chatMessages => _chatMessages;
 
-  bool _connectionIsOpen;
+  bool _connectionIsOpen = false;
   static const String connectionIsOpenPropName = "connectionIsOpen";
   bool get connectionIsOpen => _connectionIsOpen;
   set connectionIsOpen(bool value) {
@@ -40,7 +40,7 @@ class ChatPageViewModel extends ViewModel {
         (v) => _connectionIsOpen = v);
   }
 
-  String _userName;
+  String _userName = "Fred";
   static const String userNamePropName = "userName";
   String get userName => _userName;
   set userName(String value) {
@@ -118,8 +118,8 @@ class ChatPageViewModel extends ViewModel {
   }
 
   void _handleIncommingChatMessage(List<Object> args) {
-    final String senderName = args[0];
-    final String message = args[1];
+    final String senderName = args[0].toString();
+    final String message = args[1].toString();
     _chatMessages.add(ChatMessage(senderName, message));
     notifyPropertyChanged(chatMessagesPropName);
   }
